@@ -9,8 +9,14 @@ var port = process.env.PORT || 3000;
 app.use(bodyParser.urlencoded({extended: true}));
 app.use( bodyParser.json());
 
-app.get('/', function(req,res){
-	res.send(709217755);
+app.get('/webhook/', function(req,res){
+	if(req.query['hub.verify_token'] === 'CAAMO2Q6yOFgBAG2io6VBdbplg8cCmF5ZC2rydqNACYmBZCIKKa8JZAmHVPISsCXSKhWrLMdHNMRWdUEZC7h5HEGtkEPKcuVe7rPuFyWwlwhOrSdZAGMegSh6dyW7G3h4sY5Ptfr8y762QFXp08pQOOfiFCIXcWLvB0NvWFSH416ZAPJqv7hUmIO5b8mhrZBDurxkaKZBONRQCQZDZD'){
+	    
+	    res.send(req.query['hub.challenge']);
+
+	}
+
+	res.send('Error, wrong validation token');
     });
 
 app.listen(port, function() {
