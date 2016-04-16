@@ -49,7 +49,7 @@ function sentTextMessage(sender, text) {
 	console.log("sender = " + sender + ", text = " + text);
 
 	messageData = {
-		text:text
+		text:"Echo: " + text
 	}
 
 	request({
