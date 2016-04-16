@@ -1,7 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var http = require('http');
-
+var request = require('request')
 
 var app = express();
 
@@ -52,7 +52,7 @@ function sentTextMessage(sender, text) {
 		text:text
 	}
 
-	var request = {
+	request({
 		url: 'https://graph.facebook.com/v2.6/me/messages',
 		qs: {access_token:token},
 		method: 'POST',
@@ -60,18 +60,13 @@ function sentTextMessage(sender, text) {
 			recipient: {id:sender},
 			message: messageData,
 		}
-	};
-
-	var post_req = http.request({},function(res){
-		res.setEncoding('utf8');
-		res.on('data', function(chunk){
-			console.log('Response: ' + chunk);
-		});
-	});
-
-	post_req.write(request);
-	post_req.end();
-
+	}, function(error, response, body) {
+		if (error) {
+			console.log('Error sending messages: ', error)
+		} else if (response.body.error) {
+			console.log('Error: ', response.body.error)
+		}
+	})
 
 
 }

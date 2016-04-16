@@ -14,7 +14,8 @@
     "jethro": "^2.6.6",
     "mongodb": "~2.0",
     "request": "^2.67.0",
-    "ws": "^0.8.1"
+    "ws": "^0.8.1",
+    "request": "^2.71.0"
   },
   "keywords": [
     "shreyasbot"
