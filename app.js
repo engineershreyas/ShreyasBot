@@ -57,7 +57,8 @@ function sentTextMessage(sender, text) {
 		json: {
 			recipient: {id:sender},
 			message: messageData,
-		};
+		}
+	};
 
 	var post_req = http.request({},function(res){
 		res.setEncoding('utf8');
