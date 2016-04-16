@@ -26,19 +26,19 @@ app.get('/webhook/', function(req,res){
 
 app.post('/webhook/', function(req,res){
 
-var messaging_events = req.body.entry[0].messaging;
+	var messaging_events = req.body.entry[0].messaging;
 
 
 
-var event = messaging_events[0];
-var sender = event.sender.id;
+	var event = messaging_events[0];
+	var sender = event.sender.id;
 
-if(event.message && event.message.text) {
+	if(event.message && event.message.text) {
 
 		text = event.message.text;
 		sentTextMessage(sender,text);
 
-}
+	}
 
 
 
