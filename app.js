@@ -46,6 +46,8 @@ for(var i = 0; i < messaging_events.length; i++) {
 
 function sentTextMessage(sender, text) {
 
+	console.log("sender = " + sender + ", text = " + text);
+
 	messageData = {
 		text:text
 	}
