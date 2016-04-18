@@ -46,12 +46,6 @@ app.post('/webhook/', function(req,res){
 
 });
 
-app.listen(port, function() {
-
-	console.log("listening");
-
-});
-
 function sentTextMessage(sender, text) {
 
 	console.log("sender = " + sender + ", text = " + text);
@@ -78,3 +72,10 @@ function sentTextMessage(sender, text) {
 
 
 }
+
+
+app.listen(port, function() {
+
+	console.log("listening");
+
+});
