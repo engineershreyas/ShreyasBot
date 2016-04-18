@@ -48,7 +48,7 @@ app.post('/webhook/', function(req,res){
 
 });
 
-function sentTextMessage(sender, text) {
+function sendTextMessage(sender, text) {
 
 	console.log("sender = " + sender + ", text = " + text);
 
