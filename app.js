@@ -12,6 +12,12 @@ app.use( bodyParser.json());
 
 var token = 'CAAMO2Q6yOFgBAG2io6VBdbplg8cCmF5ZC2rydqNACYmBZCIKKa8JZAmHVPISsCXSKhWrLMdHNMRWdUEZC7h5HEGtkEPKcuVe7rPuFyWwlwhOrSdZAGMegSh6dyW7G3h4sY5Ptfr8y762QFXp08pQOOfiFCIXcWLvB0NvWFSH416ZAPJqv7hUmIO5b8mhrZBDurxkaKZBONRQCQZDZD';
 
+app.get('/',function(req, res) {
+
+		res.send('Hello world, I am a chat bot');
+
+});
+
 app.get('/webhook/', function(req,res){
 	if(req.query['hub.verify_token'] === 'CAAMO2Q6yOFgBAG2io6VBdbplg8cCmF5ZC2rydqNACYmBZCIKKa8JZAmHVPISsCXSKhWrLMdHNMRWdUEZC7h5HEGtkEPKcuVe7rPuFyWwlwhOrSdZAGMegSh6dyW7G3h4sY5Ptfr8y762QFXp08pQOOfiFCIXcWLvB0NvWFSH416ZAPJqv7hUmIO5b8mhrZBDurxkaKZBONRQCQZDZD'){
 
@@ -26,21 +32,23 @@ app.get('/webhook/', function(req,res){
 
 app.post('/webhook/', function(req,res){
 
-	var messaging_events = req.body.entry[0].messaging;
+	messaging_events = req.body.entry[0].messaging
+    for (i = 0; i < messaging_events.length; i++) {
+        event = req.body.entry[0].messaging[i]
+        sender = event.sender.id
+        if (event.message && event.message.text) {
+            text = event.message.text
+            sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
+        }
+    }
+    res.sendStatus(200)
 
 
+});
 
-	var event = messaging_events[0];
-	var sender = event.sender.id;
+app.listen(port, function() {
 
-	if(event.message && event.message.text) {
-
-		text = event.message.text;
-		sentTextMessage(sender,text);
-
-	}
-
-
+	console.log("listening");
 
 });
 
@@ -49,7 +57,7 @@ function sentTextMessage(sender, text) {
 	console.log("sender = " + sender + ", text = " + text);
 
 	messageData = {
-		text:"Echo: " + text
+		text:text
 	}
 
 	request({
@@ -70,9 +78,3 @@ function sentTextMessage(sender, text) {
 
 
 }
-
-app.listen(port, function() {
-
-	console.log("listening");
-
-});
