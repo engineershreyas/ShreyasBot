@@ -2,7 +2,9 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var http = require('http');
 var request = require('request');
-var sentiment = require('sentiment');
+var analysis = require("./modules/analysis");
+var operations = require("./modules/operations");
+
 
 var app = express();
 
@@ -41,7 +43,7 @@ app.post('/webhook/', function(req,res){
         sender = event.sender.id
         if (event.message && event.message.text) {
             text = event.message.text
-            sendTextMessage(sender, textAnalysis(text))
+            operations(sender, analysis(text))
         }
     }
     res.sendStatus(200)
@@ -49,73 +51,10 @@ app.post('/webhook/', function(req,res){
 
 });
 
-function sendTextMessage(sender, text) {
-
-	console.log("sender = " + sender + ", text = " + text);
-
-	messageData = {
-		text:text
-	}
-
-	request({
-		url: 'https://graph.facebook.com/v2.6/me/messages',
-		qs: {access_token:token},
-		method: 'POST',
-		json: {
-			recipient: {id:sender},
-			message: messageData,
-		}
-	}, function(error, response, body) {
-		if (error) {
-			console.log('Error sending messages: ', error)
-		} else if (response.body.error) {
-			console.log('Error: ', response.body.error)
-		}
-	})
 
 
-}
-
-function getRandomInt(min, max){
-	return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function textAnalysis(text){
-
-	var wuComp1 = "what's up";
-	var wuComp2 = "wassup";
-	var wuComp3 = "sup";
-	var wuComp4 = "wuu2";
-	var wuComp5 = "whatsup";
-	var wuComp5 = "whats up";
-	var wuComp6 = "watsup";
-
-	var responses = ["nm u?","nothing much just bored, hby","just chilling wby"];
 
 
-	if(text.indexOf(wuComp1) > -1 || text.indexOf(wuComp2) > -1 || text.indexOf(wuComp3) > -1 || text.indexOf(wuComp4) > -1 || text.indexOf(wuComp5) > -1  || text.indexOf(wuComp6) > -1){
-
-		var index = getRandomInt(0,2);
-
-		return responses[index];
-
-	}
-	else{
-
-		var score = sentiment(text).score;
-
-		if(score < 0) {
-			return "That sucks :/"
-		}
-		else if (score > 0){
-			return "That's awesome :)"
-		}
-		else{
-			return "Ah okay!"
-		}
-	}
-
-	}
 
 
 
