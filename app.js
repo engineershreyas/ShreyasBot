@@ -41,7 +41,7 @@ app.post('/webhook/', function(req,res){
         sender = event.sender.id
         if (event.message && event.message.text) {
             text = event.message.text
-            sendTextMessage(sender, sentimentAnalysis(text))
+            sendTextMessage(sender, textAnalysis(text))
         }
     }
     res.sendStatus(200)
@@ -95,7 +95,7 @@ function textAnalysis(text){
 
 	if(text.indexOf(wuComp1) > -1 || text.indexOf(wuComp2) > -1 || text.indexOf(wuComp3) > -1 || text.indexOf(wuComp4) > -1 || text.indexOf(wuComp5) > -1  || text.indexOf(wuComp6) > -1){
 
-		var index = getRandomInt[0,2];
+		var index = getRandomInt(0,2);
 
 		return responses[index];
 
