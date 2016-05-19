@@ -1,3 +1,5 @@
+var request = require('request');
+
 module.exports = function(sender, text) {
 
 	console.log("sender = " + sender + ", text = " + text);
