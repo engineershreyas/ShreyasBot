@@ -1,7 +1,8 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var http = require('http');
-var request = require('request')
+var request = require('request');
+var sentiment = require('sentiment');
 
 var app = express();
 
@@ -40,7 +41,7 @@ app.post('/webhook/', function(req,res){
         sender = event.sender.id
         if (event.message && event.message.text) {
             text = event.message.text
-            sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
+            sendTextMessage(sender, sentimentAnalysis(text))
         }
     }
     res.sendStatus(200)
@@ -73,6 +74,20 @@ function sendTextMessage(sender, text) {
 	})
 
 
+}
+
+function sentimentAnalysis(text){
+	var score = sentiment(text).score;
+
+	if(score < 0) {
+		return "That sucks :/"
+	}
+	else if (score > 0){
+		return "That's awesome :)"
+	}
+	else{
+		return "Ah okay!"
+	}
 }
 
 
